@@ -1,5 +1,5 @@
 # TwitterProject
-# operation flow
+# operation instruction
 ##  1. Get the tweets by using Tweepy
 ### 1.1 Get the credential
 ### 1.2 Crawling the tweets of some users
