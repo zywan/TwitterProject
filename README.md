@@ -15,7 +15,7 @@ in download_image.py, you can change the path that you save the images depends o
 ## 3. Use Google vision to analysis the image and combine the labels and images
 ### 3.1 First, typing following code in terminal to get the permission
 Attention! you have to change the path to your path of your PC/Mac    
-export GOOGLE_APPLICATION_CREDENTIALS="input your path of the key json file"＜/br＞    
+export GOOGLE_APPLICATION_CREDENTIALS="input your path of the key json file"   
 ### 3.2 Run the label.py to get the labels of the images
 ## 4.convert images to a video
 Run the convert_video.py    
