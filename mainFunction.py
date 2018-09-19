@@ -18,37 +18,26 @@ auth.set_access_token(twitter_credential.access_token, twitter_credential.access
 api = tweepy.API(auth)
 
 ## get information of user
-inf = api.get_user('wanzhangyu1')
+#inf = api.get_user('wanzhangyu1')
 
-# print (inf)
-# home tweets
-public_tweets = api.home_timeline()
+## home tweets
+#public_tweets = api.home_timeline()
 #for tweet in public_tweets:
      #print(tweet.text)
-## get tweet
 
 ## number of tweets
-tweetNum = 100    
-tweets = api.user_timeline(id = 'NBA', count = tweetNum)
-#print(len(tweets))
-#outfuck = open("out.txt","w")
-#print(tweets[1],file=outfuck)
-#outfuck.close()
-#for ktweet in tweets:
-    #print (ktweet.text)
-
+tweetNum = 100
+## ID of tweet account
+tweetID = 'NBA'    
+tweets = api.user_timeline(id = tweetID, count = tweetNum)
 
 ## get the path of image
 image_url_list = []
 for status in tweets:
-    #print(str(status.text)+'\n')
     
     for media in status.entities.get('media',[]):
         
-        #print(media)
         image_url_list.append(media.get("media_url"))
-        
-# print(image_url_list)
-#for image_url in image_url_list:
+
+## download images
 download_image.download_image(image_url_list)
-#   

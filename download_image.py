@@ -10,11 +10,9 @@ import random
 import urllib.request
 
 def download_image(url_list):
-    #name = random.randrange(1,1000)
-    #filename = '/Users/wang/Desktop/twitterProject/images/'+str(name)+ '.jpg'
-    #urllib.request.urlretrieve(url,filename)
 	x = 0
 	for item in url_list:
+		# /Users/wang/Desktop/twitterProject/images/ <-- this part depends on which path to save the image
 		filename = '/Users/wang/Desktop/twitterProject/images/%s.jpg' % x
 		urllib.request.urlretrieve(item,filename)
 		x+=1
