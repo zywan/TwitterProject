@@ -9,7 +9,7 @@ Finish the twitter.credential.py by inputting your personal credential and save 
 Run the mainFunction.py
 ## 3. Use Google vision to analysis the image and combine the labels and images
 ### 3.1 First, typing following code in terminal to get the permission
-＜br＞Attention! you have to change the path to your path of your PC/Mac＜/br＞
+＜p＞Attention! you have to change the path to your path of your PC/Mac＜/p＞
 ＜br＞export GOOGLE_APPLICATION_CREDENTIALS="input your path of the key json file"＜/br＞ 
 ### 3.2 Run the label.py
 ## 4.convert images to a video
