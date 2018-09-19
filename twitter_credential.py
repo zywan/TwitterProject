@@ -7,7 +7,7 @@ Created on Thu Sep  6 20:50:22 2018
 """
 
 ## variable about keys and tokens
-consumer_key = '7W7HK7ltZH8PbyZVMLTpxMRFN'
-consumer_secret = 'BrMH5E3X5HnzhHlj3EAje0uMHikFx20NOzyQo9GDNzSuJCXpzq'
-access_token = '1037537164899352582-1KDZ4I4J3WOXbnmTPOEUUDkCwIoaR7'
-access_token_secret = 'hZeTG7X3uNfkUvzXn7oOEuXKe4R6ehybwyIMQOGwdHGVe'
+consumer_key = 'input your personal consumer key'
+consumer_secret = 'input your personal consumer secret'
+access_token = 'input your access token'
+access_token_secret = 'input your access token secret'
