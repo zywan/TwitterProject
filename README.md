@@ -2,8 +2,8 @@
 # operation instruction
 ##  1. Get the tweets by using Tweepy
 ### 1.1 Get the credential
-Finish the twitter.credential.py by input all your personal credential of twitter and then save it.
-·consumer_key = 'input your personal consumer key'·
+    Finish the twitter.credential.py by input all your personal credential of twitter and then save it.      
+    consumer_key = 'input your personal consumer key'
 ### 1.2 Crawling the tweets of some users
 ### 1.3 Find the URL of media and make them into a string[]
 ## 2. Download the Images
