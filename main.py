@@ -11,13 +11,13 @@ import cv2
 import matplotlib.pyplot as plt
 
 ## variable about keys and tokens
-consumer_key = '7W7HK7ltZH8PbyZVMLTpxMRFN'
-consumer_secret = 'BrMH5E3X5HnzhHlj3EAje0uMHikFx20NOzyQo9GDNzSuJCXpzq'
-access_token = '1037537164899352582-1KDZ4I4J3WOXbnmTPOEUUDkCwIoaR7'
-access_token_secret = 'hZeTG7X3uNfkUvzXn7oOEuXKe4R6ehybwyIMQOGwdHGVe'
+consumer_key = 'input your consumer key'
+consumer_secret = 'input your consumer secret'
+access_token = 'input your access token'
+access_token_secret = 'input your access token secret'
 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/Users/wang/Desktop/twitterProject/googleVisionPart/key.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="input the path you save the google vision key json file"
 
 ## get current path and make a folder
 folder = os.getcwd()+"/images_and_video"
