@@ -1,4 +1,5 @@
 # TwitterProject
+    When running this project in PC, the path-name may has some problem
 ## Operation instruction
 ### 1. Preparation     
 #### 1) openCV  
