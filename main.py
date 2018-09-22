@@ -11,30 +11,27 @@ import cv2
 import matplotlib.pyplot as plt
 
 ## variable about keys and tokens
-consumer_key = '7W7HK7ltZH8PbyZVMLTpxMRFN'
-consumer_secret = 'BrMH5E3X5HnzhHlj3EAje0uMHikFx20NOzyQo9GDNzSuJCXpzq'
-access_token = '1037537164899352582-1KDZ4I4J3WOXbnmTPOEUUDkCwIoaR7'
-access_token_secret = 'hZeTG7X3uNfkUvzXn7oOEuXKe4R6ehybwyIMQOGwdHGVe'
+consumer_key = 'input your comsumer key'
+consumer_secret = 'input your consumer secret'
+access_token = 'input your access token'
+access_token_secret = 'input your token secret'
 
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="input the path you save your google key json file"
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/Users/wang/Desktop/twitterProject/googleVisionPart/key.json"
-
-## get current path and make a folder
+## get current path and make a folder to save the images and video
 folder = os.getcwd()+"/images_and_video"
 
 if not os.path.exists(folder):
     os.makedirs(folder)
  
-
 def download_image(url_list):
 	x = 0
 	for item in url_list:
-		# /Users/wang/Desktop/twitterProject/images/ <-- this part depends on which path to save the image
+		
 		filename = folder+'/%s.jpg' % x
 		urllib.request.urlretrieve(item,filename)
 		x+=1
-
-
+		
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token,access_token_secret)
 api = tweepy.API(auth)
@@ -57,7 +54,6 @@ for status in tweets:
 ## download images
 download_image(image_url_list)
 
-
 # Instantiates a client
 client = vision.ImageAnnotatorClient()
 def getLabel(file_name):
@@ -74,7 +70,6 @@ def getLabel(file_name):
     for label in labels:
        label_sum.append(label.description)
     return label_sum
-
 
 
 filePath = folder+'/'
