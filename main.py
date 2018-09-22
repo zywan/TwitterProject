@@ -8,7 +8,7 @@ from google.cloud import vision
 from google.cloud.vision import types
 import os
 import cv2
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 ## variable about keys and tokens
 consumer_key = 'input your consumer key'
