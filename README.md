@@ -8,7 +8,7 @@
     download package  
 #### 3) tweepy   
     pip install tweepy     
-#### 4) Input all your personal credential of twitter   
-#### 5) input your path of the google vision key json file     
+#### 4) Input all your personal credential of twitter in main.py
+#### 5) input your path of the google vision key json file in main.py    
 ### 2. Run the main.py  
 
