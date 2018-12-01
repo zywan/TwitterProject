@@ -13,11 +13,17 @@ import pymongo
 import time
 from random import choice
 import mysql.connector
+'''
+	This program is designed for user to use the API to get the image and transfer them into videos.
+	Besides basic functions, user can use this API to store information to the MySQL or Mongo DATABASES
+
+'''
 
 personal_use = False
 test_mode = True
 
 class twitter_API:
+
 	def __init__(self,user):
 		self.user = user
 
@@ -31,40 +37,57 @@ class twitter_API:
 		os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/Users/wang/Desktop/MiniProject3/key.json"
 
 	def preprocess(self): 
+		# get current datatime
 		datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
 		self.datetime = datetime
-		## get current path and make a folder
+
+		# get current path and make a folder to store the image
 		folder = os.getcwd()+"/images_and_video/"+self.user+" "+str(datetime)
 
 		if not os.path.exists(folder):
 			os.makedirs(folder)
+
 		self.folder = folder
 
 	def download_image(self,url_list):
+		'''
+			This part is for downloading the images from tweets
+		'''
 		x = 0
 		for item in url_list:
-			# /Users/wang/Desktop/twitterProject/images/
-			# <-- this part depends on which path to save the image
 			filename = self.folder+'/%s.jpg' % x
 			urllib.request.urlretrieve(item,filename)
 			x+=1
 
 	def getInfo(self):
+
+		'''
+			If for personal use, this part can get inputs from the user
+			for the number of tweets and Accout ID 
+		'''
 		if personal_use:
 			# number of tweets
 			self.tweetNum= int(input("please input the number of tweets you want to search: "))
+
 			# ID of tweet account
 			self.tweetID= str(input("please input the ID of tweet account: "))
-
+		'''
+			This part is for the test.
+			Automatically choosinng account ID and number 
+		'''
 		if test_mode:
-			id_pool = ['NBA','lol','kobe','james','SLAMonline','NBAonTNT','StephenCurry30','JHarden13','JLin7','HoustonRockets']
+			id_pool = ['NBA','lol','kobe','james','SLAMonline','NBAonTNT',
+						'StephenCurry30','JHarden13','JLin7','HoustonRockets']
 			number_pool = [20,25,35,30,40,45,50]
 			self.tweetID = str(choice(id_pool))
 			self.tweetNum = int(choice(number_pool))
 
 
 	def getLabel(self,file_name):
-	# Loads the image into memory
+		'''
+			This part is for getting the label of images
+		'''
+		# Loads the image into memory
 		with io.open(file_name, 'rb') as image_file:
 			content = image_file.read()
 
@@ -80,16 +103,25 @@ class twitter_API:
 		return label_sum
 
 	def video(self):
+		'''
+			This part is for transferring the images with labels into video
+		'''
 		os.chdir(self.folder+'/')
 		os.popen('ffmpeg -loop 1 -i %d.jpg -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" -r 0.5 -t 60 video.mp4','r',1)
 
 
 	def mongodb(self):
+		'''
+			connect to the mongodb
+		'''
 		self.client = pymongo.MongoClient()
 		self.mydb = self.client.twitter_mongo
 		self.mycol = self.mydb.user
 
 	def connect_mysql(self):
+		'''
+			connect to mysql 
+		'''
 		self.sqldb = mysql.connector.connect(
 			host="localhost",
 			user="root",
@@ -99,11 +131,13 @@ class twitter_API:
 		self.mycursor = self.sqldb.cursor()
 
 	def implement(self):
+		# connect to the tweep api
 		auth = OAuthHandler(self.consumer_key, self.consumer_secret)
 		auth.set_access_token(self.access_token,self.access_token_secret)
 		api = tweepy.API(auth)
 		print('............successfully connect to tweepy..............')
 		label_list = []
+
 		try:
 			tweets = api.user_timeline(id = self.tweetID, count = self.tweetNum)
 		except Exception:
@@ -112,13 +146,12 @@ class twitter_API:
 		else:
 			image_url_list = []
 			for status in tweets:
-
 				for media in status.entities.get('media',[]):
-
 					image_url_list.append(media.get("media_url"))
 
 			self.image_url_list = image_url_list
-			## download images
+
+			# download images
 			self.download_image(image_url_list)
 			path = self.folder+'/'
 			try:
@@ -140,8 +173,10 @@ class twitter_API:
 						try:
 							labels = self.getLabel(filename)
 							label_list.append(labels)
+
 						except Exception:
 							print("Error, please give the right filename")
+						
 						# use the default (fond) tff
 						else:
 							font=cv2.FONT_HERSHEY_SIMPLEX
@@ -150,7 +185,10 @@ class twitter_API:
 
 							i = 100
 							for label in labels:
-								# 2 means font size,(50,i)is initial place,(69,0,255) is color of font,2 is font weight
+								'''
+								 2 means font size,(50,i)is initial place,
+								 (69,0,255) is color of font,2 is font weight
+								 '''
 								im=cv2.putText(im,label,(60,i),font,1.,(69,0,255),2)
 								i = i+50
 
@@ -158,43 +196,48 @@ class twitter_API:
 				self.label_list = label_list
 
 	def insert(self):
-		# insert data in mongo
+
+		# insert data into mongo
 		user_dict = {}
 		user_dict['username'] = self.user
 		user_dict['searchID'] = str(self.tweetID)
 		user_dict['serchNum'] = str(self.tweetNum)
-		# user_dict['datetime'] = time.asctime(time.localtime(time.time()))
 		user_dict['datetime'] = self.datetime 
-		user_dict['credential'] = [self.consumer_key, self.consumer_secret, self.access_token, self.access_token_secret],
+		user_dict['credential'] = [self.consumer_key, self.consumer_secret, 
+									elf.access_token, self.access_token_secret],
 		user_dict['url_list'] = self.image_url_list
 		user_dict['label_list'] =  self.label_list
 		x = self.mycol.insert_one(user_dict)
 
-	# insert data in mysql
+	
 	def insert_mysql(self,id):
+		# insert data into mysql
 		sql1 ="INSERT INTO user (id,username) VALUES(%s,%s)"
 		val1 = (id,self.user)
-		# try:
-		# 	self.mycursor.execute(sql1,val1)
-		# 	self.sqldb.commit()
-		# except:
-		# 	print('fail!!!!')
-		# 	self.sqldb.rollback()
-		self.mycursor.execute(sql1,val1)
-		self.sqldb.commit()
+		try:
+			self.mycursor.execute(sql1,val1)
+			self.sqldb.commit()
+		except:
+			print('fail!!!!')
+			self.sqldb.rollback()
+
 		sql2 = '''INSERT INTO activity (username, searchID, searchNum, searchDate, imageNum)
 				VALUES (%s,%s,%s,%s,%s)
 				'''
-		val2 = (self.user, str(self.tweetID), str(self.tweetNum), self.datetime, str(len(self.image_url_list)))
-		# try:
-		# 	self.mycursor.execute(sql2,val2)
-		# 	self.sqldb.commit()
-		# except:
-		# 	print('fail!!!!')
-		# 	self.sqldb.rollback()
-		self.mycursor.execute(sql2,val2)
-		self.sqldb.commit()
+		val2 = (self.user, str(self.tweetID), str(self.tweetNum), 
+				self.datetime, str(len(self.image_url_list)))
+		try:
+			self.mycursor.execute(sql2,val2)
+			self.sqldb.commit()
+		except:
+			print('fail!!!!')
+			self.sqldb.rollback()
+
+
 	def begin(self):
+		'''
+			begin the use of API
+		'''
 		try:
 			self.credential()
 			self.preprocess()
@@ -206,6 +249,9 @@ class twitter_API:
 			self.implement()
 
 def create_datebase():
+	'''
+		this part is for creating the mysql database
+	'''
 	mydb = mysql.connector.connect(
 		host="localhost",
 		user="root",
@@ -219,6 +265,9 @@ def create_datebase():
 		print(x)
 
 def create_table():
+	'''
+		this part is for creating the mysql table
+	'''
 	mydb = mysql.connector.connect(
 		host="localhost",
 		user="root",
@@ -248,6 +297,9 @@ def create_table():
 		print(x)
 
 def reset():
+	'''
+		this part is for reset the mysql database
+	'''
 	mydb = mysql.connector.connect(
 		host="localhost",
 		user="root",
