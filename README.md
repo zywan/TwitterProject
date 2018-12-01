@@ -1,4 +1,4 @@
-# TwitterProject
+# TwitterProject with two databases
     When running this project in PC, the path-name may have some problem
 ## Operation instruction
 ### 1. Preparation     
