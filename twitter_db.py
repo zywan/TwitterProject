@@ -174,26 +174,26 @@ class twitter_API:
 	def insert_mysql(self,id):
 		sql1 ="INSERT INTO user (id,username) VALUES(%s,%s)"
 		val1 = (id,self.user)
-		# try:
-		# 	self.mycursor.execute(sql1,val1)
-		# 	self.sqldb.commit()
-		# except:
-		# 	print('fail!!!!')
-		# 	self.sqldb.rollback()
-		self.mycursor.execute(sql1,val1)
-		self.sqldb.commit()
+		try:
+			self.mycursor.execute(sql1,val1)
+			self.sqldb.commit()
+		except:
+			print('fail!!!!')
+			self.sqldb.rollback()
+# 		self.mycursor.execute(sql1,val1)
+# 		self.sqldb.commit()
 		sql2 = '''INSERT INTO activity (username, searchID, searchNum, searchDate, imageNum)
 				VALUES (%s,%s,%s,%s,%s)
 				'''
 		val2 = (self.user, str(self.tweetID), str(self.tweetNum), self.datetime, str(len(self.image_url_list)))
-		# try:
-		# 	self.mycursor.execute(sql2,val2)
-		# 	self.sqldb.commit()
-		# except:
-		# 	print('fail!!!!')
-		# 	self.sqldb.rollback()
-		self.mycursor.execute(sql2,val2)
-		self.sqldb.commit()
+		try:
+			self.mycursor.execute(sql2,val2)
+			self.sqldb.commit()
+		except:
+			print('fail!!!!')
+			self.sqldb.rollback()
+# 		self.mycursor.execute(sql2,val2)
+# 		self.sqldb.commit()
 	def begin(self):
 		try:
 			self.credential()
