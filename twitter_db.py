@@ -220,20 +220,34 @@ class twitter_API:
 		except:
 			print('fail!!!!')
 			self.sqldb.rollback()
+<<<<<<< HEAD
 
 		sql2 = '''INSERT INTO activity (username, searchID, searchNum, searchDate, imageNum)
 				VALUES (%s,%s,%s,%s,%s)
 				'''
 		val2 = (self.user, str(self.tweetID), str(self.tweetNum), 
 				self.datetime, str(len(self.image_url_list)))
+=======
+# 		self.mycursor.execute(sql1,val1)
+# 		self.sqldb.commit()
+		sql2 = '''INSERT INTO activity (username, searchID, searchNum, searchDate, imageNum)
+				VALUES (%s,%s,%s,%s,%s)
+				'''
+		val2 = (self.user, str(self.tweetID), str(self.tweetNum), self.datetime, str(len(self.image_url_list)))
+>>>>>>> 43567257373d9ac14581ca41683499833791eb71
 		try:
 			self.mycursor.execute(sql2,val2)
 			self.sqldb.commit()
 		except:
 			print('fail!!!!')
 			self.sqldb.rollback()
+<<<<<<< HEAD
 
 
+=======
+# 		self.mycursor.execute(sql2,val2)
+# 		self.sqldb.commit()
+>>>>>>> 43567257373d9ac14581ca41683499833791eb71
 	def begin(self):
 		'''
 			begin the use of API
